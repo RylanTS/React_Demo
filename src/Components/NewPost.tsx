@@ -1,7 +1,7 @@
-import classes from './NewPost.module.css';
 import { useState } from 'react';
+import { PostData } from "../interfaces";
 
-function NewPost({onCancel, onAddPost}) {
+function NewPost(props: { onCancel: () => void, onAddPost: (data: PostData) => void }) {
   
   const [enteredBody, setEnteredBody] = useState('');
   const [enteredAuthor, setEnteredAuthor] = useState('');
@@ -16,16 +16,16 @@ function NewPost({onCancel, onAddPost}) {
 
   function submitHandler(event) {
       event.preventDefault();
-      const postData = {
+      const postData: PostData = {
         body: enteredBody,
         author: enteredAuthor
       };
-      onAddPost(postData);
-      onCancel();
+      props.onAddPost(postData);
+      props.onCancel();
   }
 
   return (
-    <form className={classes.form} onSubmit={submitHandler}>
+      <form className={"form"} onSubmit={submitHandler}>
       <p>
         <label htmlFor="body">Text</label>
         <textarea id="body" required rows={3} onChange={bodyChangeHandler} />
@@ -34,8 +34,8 @@ function NewPost({onCancel, onAddPost}) {
         <label htmlFor="name">Your name</label>
         <input type="text" id="name" required onChange={authorChangeHandler} />
       </p>
-      <p className={classes.actions}>
-        <button type="button" onClick={onCancel}>Cancel</button>
+          <p className={"actions"}>
+              <button type="button" onClick={props.onCancel}>Cancel</button>
         <button>Submit</button>
       </p>
     </form>
