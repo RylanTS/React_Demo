@@ -1,26 +1,14 @@
 import './App.css';
-import { useState } from 'react';
-import PostList from './Components/PostList';
-import MainHeader from './Components/MainHeader';
-import { atom, Provider, useAtom } from 'jotai';
+import PostList from './components/PostList';
+import { MainHeader } from "./components/MainHeader";
 
 export default function App() {
 
-  const [modalIsVisible, setModalIsVisible] = useState<boolean>(false)
- 
-  function showModalHandler() {
-    setModalIsVisible(true);
-  }
-
-  function hideModalHandler() {
-    setModalIsVisible(false);
-  }
-
   return (
     <>
-      <MainHeader onCreatePost={showModalHandler}/>
+      <MainHeader/>
       <main>
-        <PostList isPosting={modalIsVisible} onStopPosting={hideModalHandler}/>
+        <PostList/>
       </main>
     </>
   )
