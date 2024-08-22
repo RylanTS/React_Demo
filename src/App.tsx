@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import PostList from './Components/PostList';
 import MainHeader from './Components/MainHeader';
+import { atom, Provider, useAtom } from 'jotai';
 
 export default function App() {
 

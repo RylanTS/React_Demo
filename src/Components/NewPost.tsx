@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PostData } from "../interfaces";
+import {Button, Typography} from '@mui/material';
 
 function NewPost(props: { onCancel: () => void, onAddPost: (data: PostData) => void }) {
   
@@ -34,7 +35,7 @@ function NewPost(props: { onCancel: () => void, onAddPost: (data: PostData) => v
         <label htmlFor="name">Your name</label>
         <input type="text" id="name" required onChange={authorChangeHandler} />
       </p>
-          <p className={"actions"}>
+      <p className={"actions"}>
               <button type="button" onClick={props.onCancel}>Cancel</button>
         <button>Submit</button>
       </p>
