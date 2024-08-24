@@ -1,6 +1,6 @@
 import './App.css';
-import PostList from './xComponents/PostList';
-import { MainHeader } from "./xComponents/MainHeader";
+import PostList from './components/PostList';
+import { MainHeader } from "./components/MainHeader";
 
 export default function App() {
 
