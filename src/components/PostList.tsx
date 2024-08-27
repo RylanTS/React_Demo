@@ -1,10 +1,10 @@
 import React from 'react';
-import Modal from './Modal';
+// import Modal from './Modal';
 import NewPost from './NewPost';
 import { PostData } from "../interfaces";
 import { editablePostAtom, postsAtom } from "../atoms/atoms";
 import { useAtomValue } from "jotai";
-import Post from "./Post";
+// import Post from "./Post";
 
 export default function PostList() {
 

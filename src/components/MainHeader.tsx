@@ -1,4 +1,5 @@
-import { AppBar, Box, Button, createTheme, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import * as React from 'react'
+import { AppBar, Box, Button, createTheme, IconButton, Stack, Toolbar, Typography, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import ClearIcon from '@mui/icons-material/Clear';
 import CreateIcon from '@mui/icons-material/Create';
@@ -11,30 +12,30 @@ import { pluraliseWithCount } from "../strings";
 
 
 const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#1976d2',
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#1976d2',
+      },
     },
-  },
-});
+  });
 
 
 export function MainHeader() {
 
-    const setPost = useSetAtom(editablePostAtom);
-    const [posts, setPosts] = useAtom(postsAtom);
+      const setPost = useSetAtom(editablePostAtom);
+      const [posts, setPosts] = useAtom(postsAtom);
 
-    function createNewPost() {
-        const newPost: PostData = {author: '', body: ''};
-        setPost(newPost);
-        log.info("Create Post:", newPost);
-    }
+      function createNewPost() {
+          const newPost: PostData = {author: '', body: ''};
+          setPost(newPost);
+          log.info("Create Post:", newPost);
+      }
 
-    function clearPosts() {
-        log.info("Clearing Posts");
-        setPosts([]);
-    }
+      function clearPosts() {
+          log.info("Clearing Posts");
+          setPosts([]);
+      }
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -57,12 +58,145 @@ export function MainHeader() {
                             <Button startIcon={<ClearIcon/>} variant="contained" color="primary" onClick={clearPosts}>
                                 Clear {pluraliseWithCount(posts.length,"Post")}
                             </Button> : null}
-                        <Button startIcon={<CreateIcon/>} variant="contained" color="secondary" onClick={createNewPost}>
-                            New Post
-                        </Button>
+                        <React.Fragment>
+                              <Button variant="outlined" onClick={handleClickOpen}>
+                                Open form dialog
+                              </Button>
+                              <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                PaperProps={{
+                                  component: 'form',
+                                  onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+                                    event.preventDefault();
+                                    const formData = new FormData(event.currentTarget);
+                                    const formJson = Object.fromEntries((formData as any).entries());
+                                    const email = formJson.email;
+                                    console.log(email);
+                                    handleClose();
+                                  },
+                                }}
+                              >
+                                <DialogTitle>New Post</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText>
+                        Add New Post
+                                  </DialogContentText>
+                                  <TextField
+                                    autoFocus
+                                    required
+                                    margin="dense"
+                                    id="name"
+                                    label="Author"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                  />
+                                   <TextField
+                                    autoFocus
+                                    required
+                                    margin="dense"
+                                    id="name"
+                                    label="Body"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                  />
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={handleClose}>Cancel</Button>
+                                  <Button type="submit">Confirm</Button>
+                                </DialogActions>
+                              </Dialog>
+                            </React.Fragment>
+                          );
+                        }
                     </Stack>
                 </Toolbar>
             </AppBar>
         </Box>
     );
 }
+
+
+// Original //
+//                        <Button startIcon={<CreateIcon/>} variant="contained" color="secondary" onClick={createNewPost}>
+//                             New Post
+//                        </Button>
+
+
+// New //
+// import * as React from 'react';
+// import Button from '@mui/material/Button';
+// import TextField from '@mui/material/TextField';
+// import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
+// import DialogTitle from '@mui/material/DialogTitle';
+//
+// export default function FormDialog() {
+//   const [open, setOpen] = React.useState(false);
+//
+//   const handleClickOpen = () => {
+//     setOpen(true);
+//   };
+//
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
+//
+//   return (
+//     <React.Fragment>
+//       <Button variant="outlined" onClick={handleClickOpen}>
+//         Open form dialog
+//       </Button>
+//       <Dialog
+//         open={open}
+//         onClose={handleClose}
+//         PaperProps={{
+//           component: 'form',
+//           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+//             event.preventDefault();
+//             const formData = new FormData(event.currentTarget);
+//             const formJson = Object.fromEntries((formData as any).entries());
+//             const email = formJson.email;
+//             console.log(email);
+//             handleClose();
+//           },
+//         }}
+//       >
+//         <DialogTitle>New Post</DialogTitle>
+//         <DialogContent>
+//           <DialogContentText>
+// Add New Post
+//           </DialogContentText>
+//           <TextField
+//             autoFocus
+//             required
+//             margin="dense"
+//             id="name"
+//             label="Author"
+//             type="text"
+//             fullWidth
+//             variant="standard"
+//           />
+//            <TextField
+//             autoFocus
+//             required
+//             margin="dense"
+//             id="name"
+//             label="Body"
+//             type="text"
+//             fullWidth
+//             variant="standard"
+//           />
+//         </DialogContent>
+//         <DialogActions>
+//           <Button onClick={handleClose}>Cancel</Button>
+//           <Button type="submit">Confirm</Button>
+//         </DialogActions>
+//       </Dialog>
+//     </React.Fragment>
+//   );
+// }
