@@ -21,6 +21,8 @@ const darkTheme = createTheme({
   });
 
 
+
+
 export function MainHeader() {
 
       const setPost = useSetAtom(editablePostAtom);
@@ -36,6 +38,19 @@ export function MainHeader() {
           log.info("Clearing Posts");
           setPosts([]);
       }
+
+
+function FormDialog() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
     return (
         <Box sx={{flexGrow: 1}}>
