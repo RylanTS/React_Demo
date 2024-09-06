@@ -3,7 +3,7 @@ import { PostData } from "../interfaces";
 import { postsAtom } from "../atoms/atoms";
 import { useAtomValue } from "jotai";
 import Post from "./Post";
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Alert, AlertTitle } from '@mui/material';
 
 export default function PostList() {
 
@@ -16,9 +16,16 @@ export default function PostList() {
             </Grid>
         </Box> :
         <>
-            <div style={{textAlign: 'center', color: 'white'}}>
-                <h2>There are no posts yet.</h2>
-                <p>Start adding some!</p>
-            </div>
+            <Alert color="secondary" variant="filled" severity="info">
+            <AlertTitle>There are no posts yet.</AlertTitle>
+                Start adding some!
+            </Alert>
         </>;
 }
+
+
+
+//             <div style={{textAlign: 'center', color: 'white'}}>
+//                 <h2>There are no posts yet.</h2>
+//                 <p>Start adding some!</p>
+//             </div>
