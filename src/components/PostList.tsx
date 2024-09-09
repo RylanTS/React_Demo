@@ -3,7 +3,7 @@ import { PostData } from "../interfaces";
 import { postsAtom } from "../atoms/atoms";
 import { useAtomValue } from "jotai";
 import Post from "./Post";
-import { Box, Grid, Alert, AlertTitle } from '@mui/material';
+import { Box, Grid, Alert, AlertTitle, Stack } from '@mui/material';
 
 export default function PostList() {
 
@@ -12,7 +12,9 @@ export default function PostList() {
     return posts.length > 0 ?
         <Box>
             <Grid container spacing={1}>
+            <Stack direction="row" spacing={2}>
                 {posts.map((post: PostData, index) => <Post key={index + post.author + post.body} post={post}/>)}
+            </Stack>
             </Grid>
         </Box> :
         <>
