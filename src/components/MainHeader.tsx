@@ -31,9 +31,8 @@ export function MainHeader() {
     const [post, setPost] = useAtom<PostData>(editablePostAtom);
     const disabled = !post?.body || !post?.author;
     const open = !!post;
-
     function createNewPost() {
-        const newPost: PostData = {author: '', body: ''};
+        const newPost: PostData = {creationDate: new Date().toISOString(), author: '', body: ''};
         setPost(newPost);
         log.info("Create Post:", newPost);
     }
@@ -70,13 +69,11 @@ export function MainHeader() {
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static" color="inherit">
                 <Toolbar>
-                    <IconButton
-                        size="large"
+                    <IconButton size="large"
                         edge="start"
                         color="secondary"
                         aria-label="menu"
-                        sx={{mr: 2}}
-                    >
+                                sx={{mr: 2}}>
                         <ChatIcon/>
                     </IconButton>
                     <Typography variant="h3" align="center" color="secondary" component="div" sx={{flexGrow: 1}}>
@@ -94,7 +91,7 @@ export function MainHeader() {
                 </Toolbar>
             </AppBar>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>New Post <IconButton
+                <DialogTitle>Add New Post <IconButton
                     aria-label="close"
                     sx={(theme) => ({
                         position: 'absolute',
@@ -106,14 +103,25 @@ export function MainHeader() {
                 </IconButton>
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        Add New Post
-                    </DialogContentText>
+                    <DialogContentText mb={2}>Enter post information below</DialogContentText>
+                    <TextField
+                        size={"small"}
+                        inputProps={{ readOnly: true }}
+                        autoFocus
+                        required
+                        margin="dense"
+                        label="Created On"
+                        value={post?.creationDate}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                    />
                     <TextField
                         size={"small"}
                         InputLabelProps={{ shrink: true }}
                         autoFocus
                         required
+                        value={post?.author}
                         margin="dense"
                         id="author"
                         label="Author"
@@ -129,12 +137,14 @@ export function MainHeader() {
                         required
                         margin="dense"
                         id="body"
+                        value={post?.body}
                         label="Body"
                         type="text"
                         fullWidth
                         variant="outlined"
                         onChange={postChangeHandler}
                     />
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
