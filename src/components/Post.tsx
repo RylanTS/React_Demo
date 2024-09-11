@@ -1,6 +1,6 @@
 import React from 'react';
 import { PostData } from "../interfaces";
-import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Button, Card, CardContent, Grid, Typography, CheckBox, Stack } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAtom } from "jotai";
 import { postsAtom } from "../atoms/atoms";
@@ -21,6 +21,7 @@ export default function Post(props: { post: PostData }) {
         });
     }
 
+
     return (
         <Grid item xs p={3}>
             <Card>
@@ -34,15 +35,22 @@ export default function Post(props: { post: PostData }) {
                     <Typography gutterBottom variant="body1" component="div">
                         Created: {formatDate(props.post.creationDate)}
                     </Typography>
+                    <Checkbox onClick={props.post.deletable = true}
+                      checked={checked}
+                      onChange={handleChange}
+                      inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                    {deletable ?
                     <Button startIcon={<ClearIcon/>} variant="contained" color="primary"
                             onClick={() => {
                                 const updatedPosts = posts.filter(post => post.creationDate !== props.post.creationDate);
                                 setPosts(updatedPosts);
                             }}>
                         Delete
-                    </Button>
+                    </Button> : null}
                 </CardContent>
             </Card>
         </Grid>
     );
 }
+
