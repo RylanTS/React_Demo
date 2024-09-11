@@ -1,9 +1,9 @@
 import React from 'react';
-import { PostData } from "../interfaces";
-import { Button, Card, CardContent, Grid, Typography, CheckBox, Stack } from "@mui/material";
+import {PostData} from "../interfaces";
+import {Button, Card, CardContent, Grid, Typography} from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
-import { useAtom } from "jotai";
-import { postsAtom } from "../atoms/atoms";
+import {useAtom} from "jotai";
+import {postsAtom} from "../atoms/atoms";
 
 export default function Post(props: { post: PostData }) {
 
@@ -30,24 +30,19 @@ export default function Post(props: { post: PostData }) {
                         Author: {props.post.author}
                     </Typography>
                     <Typography gutterBottom variant="body1" component="div">
-                       Body: {props.post.body}
+                        Body: {props.post.body}
                     </Typography>
                     <Typography gutterBottom variant="body1" component="div">
                         Created: {formatDate(props.post.creationDate)}
                     </Typography>
-                    <Checkbox onClick={props.post.deletable = true}
-                      checked={checked}
-                      onChange={handleChange}
-                      inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                    {deletable ?
-                    <Button startIcon={<ClearIcon/>} variant="contained" color="primary"
-                            onClick={() => {
-                                const updatedPosts = posts.filter(post => post.creationDate !== props.post.creationDate);
-                                setPosts(updatedPosts);
-                            }}>
-                        Delete
-                    </Button> : null}
+                    {props.post.deletable ?
+                        <Button startIcon={<ClearIcon/>} variant="contained" color="primary"
+                                onClick={() => {
+                                    const updatedPosts = posts.filter(post => post.creationDate !== props.post.creationDate);
+                                    setPosts(updatedPosts);
+                                }}>
+                            Delete
+                        </Button> : null}
                 </CardContent>
             </Card>
         </Grid>
