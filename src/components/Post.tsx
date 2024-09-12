@@ -6,16 +6,16 @@ import CreateIcon from '@mui/icons-material/Create';
 import {useAtom} from "jotai";
 import {postsAtom} from "../atoms/atoms";
 import {editablePostAtom} from "../atoms/atoms";
+import log from '../logging/logger';
 
 export default function Post(props: { post: PostData }) {
 
     const [posts, setPosts] = useAtom(postsAtom);
     const [post, setPost] = useAtom<PostData>(editablePostAtom);
 
-    function createNewPost() {
-            const newPost: PostData = {deletable: false, creationDate: new Date().toISOString(), author: '', body: ''};
-            setPost(newPost);
-            log.info("Create Post:", newPost);
+    function editExistingPost() {
+        log.info("Edit existing Post:", props.post );
+        setPost(props.post);
         }
 
     function formatDate(creationDate: string) {
@@ -53,7 +53,11 @@ export default function Post(props: { post: PostData }) {
                                 }}>
                             Delete
                         </Button> : null}
-                        <Button startIcon={<CreateIcon/>} variant="contained" color="secondary" onClick={createNewPost}>
+                        <Button startIcon={<CreateIcon/>} variant="contained" color="secondary"
+                        onClick={editExistingPost => {
+                            const editedPost = posts.filter(post => props.post !== props.post.creationDate);
+                            setPost(editedPost)
+                            }}>
                         Edit
                         </Button>
                     </Stack>
