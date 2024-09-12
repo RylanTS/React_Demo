@@ -55,8 +55,7 @@ export default function Post(props: { post: PostData }) {
                         </Button> : null}
                         <Button startIcon={<CreateIcon/>} variant="contained" color="secondary"
                         onClick={editExistingPost => {
-                            const editedPost = posts.filter(post => props.post !== props.post.creationDate);
-                            setPost(editedPost)
+                            setPost(props.post)
                             }}>
                         Edit
                         </Button>
