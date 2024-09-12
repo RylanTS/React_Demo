@@ -1,14 +1,30 @@
 import * as React from 'react';
-import {AppBar, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, TextField, Toolbar, Typography} from '@mui/material';
+import {
+    AppBar,
+    Box,
+    Button,
+    Checkbox,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormControlLabel,
+    IconButton,
+    Stack,
+    TextField,
+    Toolbar,
+    Typography
+} from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import CloseIcon from '@mui/icons-material/Close';
 import ClearIcon from '@mui/icons-material/Clear';
 import CreateIcon from '@mui/icons-material/Create';
 import log from '../logging/logger';
-import {PostData} from "../interfaces";
-import {editablePostAtom, postsAtom} from "../atoms/atoms";
-import {useAtom} from "jotai";
-import {pluraliseWithCount} from "../strings";
+import { PostData } from "../interfaces";
+import { editablePostAtom, postsAtom } from "../atoms/atoms";
+import { useAtom } from "jotai";
+import { pluraliseWithCount } from "../strings";
 
 
 export function MainHeader() {
@@ -51,8 +67,8 @@ export function MainHeader() {
     function submitHandler(event) {
         event.preventDefault();
         setPosts((existingPosts: PostData[]) => {
-            const newPosts = existingPosts.concat(post);
-            log.info("submitting post:", post, "newPosts:", newPosts);
+            const newPosts: PostData[] = existingPosts.filter(existingPost => existingPost.creationDate !== post.creationDate).concat(post);
+            log.info("submitting post:", post, "existing posts:", existingPosts, "newPosts:", newPosts);
             return newPosts;
         });
         setPost(null);
@@ -105,7 +121,7 @@ export function MainHeader() {
                         required
                         margin="dense"
                         label="Created On"
-                        value={post?.creationDate}
+                        value={post?.creationDate || ""}
                         type="text"
                         fullWidth
                         variant="outlined"
@@ -115,7 +131,7 @@ export function MainHeader() {
                         InputLabelProps={{shrink: true}}
                         autoFocus
                         required
-                        value={post?.author}
+                        value={post?.author || ""}
                         margin="dense"
                         id="author"
                         label="Author"
@@ -131,14 +147,15 @@ export function MainHeader() {
                         required
                         margin="dense"
                         id="body"
-                        value={post?.body}
+                        value={post?.body || ""}
                         label="Body"
                         type="text"
                         fullWidth
                         variant="outlined"
                         onChange={postChangeHandler}
                     />
-                    <FormControlLabel control={<Checkbox checked={post?.deletable} id={"deletable"} onChange={handleCheckboxChange}/>} label="Deletable"/>
+                    <FormControlLabel control={<Checkbox checked={post?.deletable || false} id={"deletable"}
+                                                         onChange={handleCheckboxChange}/>} label="Deletable"/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
