@@ -3,7 +3,7 @@ import { PostData } from "../interfaces";
 import { postsAtom } from "../atoms/atoms";
 import { useAtomValue } from "jotai";
 import Post from "./Post";
-import { Alert, AlertTitle, Box, Grid, Stack } from '@mui/material';
+import { Alert, AlertTitle, Box, Grid, Stack, } from '@mui/material';
 
 export default function PostList() {
 
