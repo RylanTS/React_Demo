@@ -13,7 +13,7 @@ export default function PostList() {
         <Box>
             <Grid container spacing={1}>
             <Stack direction="row" spacing={2}>
-                {posts.map((post: PostData, index) => <Post key={index + post.author + post.body} post={post}/>)}
+                {posts.map((post: PostData, index) => <Post key={index + post.firstName + post.lastName + post.body} post={post}/>)}
             </Stack>
             </Grid>
         </Box> :

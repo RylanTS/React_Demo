@@ -36,7 +36,10 @@ export default function Post(props: { post: PostData }) {
             <Card>
                 <CardContent>
                     <Typography gutterBottom variant="body1" component="div">
-                        Author: {props.post.author}
+                        First Name: {props.post.firstName}
+                    </Typography>
+                    <Typography gutterBottom variant="body1" component="div">
+                        Last Name: {props.post.lastName}
                     </Typography>
                     <Typography gutterBottom variant="body1" component="div">
                         Body: {props.post.body}

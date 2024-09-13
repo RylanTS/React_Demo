@@ -31,11 +31,15 @@ export function MainHeader() {
 
     const [posts, setPosts] = useAtom(postsAtom);
     const [post, setPost] = useAtom<PostData>(editablePostAtom);
-    const disabled = !post?.body || !post?.author;
+    const disabled = !post?.body || !post?.firstName || !post?.lastName;
     const open = !!post;
+    const addNew: boolean = !posts.find(existingPost => existingPost.creationDate === post?.creationDate);
+    const editMode = addNew ? "Add New" : "Edit Existing";
 
     function createNewPost() {
-        const newPost: PostData = {deletable: false, creationDate: new Date().toISOString(), author: '', body: ''};
+        const newPost: PostData = {deletable: false,
+            creationDate: new Date().toISOString(),
+            fieldName: '', lastName: '', body: ''};
         setPost(newPost);
         log.info("Create Post:", newPost);
     }
@@ -67,8 +71,15 @@ export function MainHeader() {
     function submitHandler(event) {
         event.preventDefault();
         setPosts((existingPosts: PostData[]) => {
-            const newPosts: PostData[] = existingPosts.filter(existingPost => existingPost.creationDate !== post.creationDate).concat(post);
-            log.info("submitting post:", post, "existing posts:", existingPosts, "newPosts:", newPosts);
+            const newPosts: PostData[] = existingPosts
+            .filter(existingPost => existingPost.creationDate !== post.creationDate)
+            .concat(post)
+            .sort((a: PostData, b: PostData) =>{
+                const firstDate = Date.parse(a.creationDate)
+                const secondDate = Date.parse(b.creationDate)
+                log.debug("firstDate", firstDate, "secondDate", secondDate)
+                return secondDate - firstDate });
+            log.debug("submitting post:", post, "existing posts:", existingPosts, "newPosts:", newPosts,);
             return newPosts;
         });
         setPost(null);
@@ -101,7 +112,7 @@ export function MainHeader() {
                 </Toolbar>
             </AppBar>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add New Post <IconButton
+                <DialogTitle>{editMode} Post <IconButton
                     aria-label="close"
                     sx={(theme) => ({
                         position: 'absolute',
@@ -131,10 +142,24 @@ export function MainHeader() {
                         InputLabelProps={{shrink: true}}
                         autoFocus
                         required
-                        value={post?.author || ""}
+                        value={post?.firstName || ""}
                         margin="dense"
-                        id="author"
-                        label="Author"
+                        id="firstName"
+                        label="First Name"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        onChange={postChangeHandler}
+                    />
+                    <TextField
+                        size={"small"}
+                        InputLabelProps={{shrink: true}}
+                        autoFocus
+                        required
+                        value={post?.lastName || ""}
+                        margin="dense"
+                        id="lastName"
+                        label="Last Name"
                         type="text"
                         fullWidth
                         variant="outlined"
