@@ -22,4 +22,3 @@ export default function PostList() {
                 Start adding some!
         </Alert>;
 }
-

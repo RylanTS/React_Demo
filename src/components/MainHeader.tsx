@@ -56,12 +56,13 @@ export function MainHeader() {
                             <Button startIcon={<ClearIcon/>} variant="contained" color="primary" onClick={clearPosts}>
                                 Clear {pluraliseWithCount(posts.length, "Post")}
                             </Button> : null}
-                        <Button startIcon={<CreateIcon/>} variant="contained" color="secondary" onClick={createNewPost}>
-                            New Post
-                        </Button>
+                            <Button startIcon={<CreateIcon/>} variant="contained" color="secondary" onClick={createNewPost}>
+                                New Post
+                            </Button>
                     </Stack>
                 </Toolbar>
-            </AppBar>           
+            </AppBar>
+            <PostEntry/>       
         </Box>
     );
 }

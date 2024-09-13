@@ -13,6 +13,7 @@ import {
     Box,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import CreateIcon from '@mui/icons-material/Create';
 import log from '../logging/logger';
 import { PostData } from "../interfaces";
 import { editablePostAtom, postsAtom } from "../atoms/atoms";
@@ -28,6 +29,7 @@ export default function PostEntry() {
     const addNew: boolean = !posts.find(existingPost => existingPost.creationDate === post?.creationDate);
     const editMode = addNew ? "Add New" : "Edit Existing";
 
+    
 
     function submitHandler(event) {
         event.preventDefault();
@@ -66,6 +68,7 @@ export default function PostEntry() {
 
     return (        
         <Box>
+
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>{editMode} Post <IconButton
                     aria-label="close"
