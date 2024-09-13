@@ -39,7 +39,7 @@ export function MainHeader() {
     function createNewPost() {
         const newPost: PostData = {deletable: false,
             creationDate: new Date().toISOString(),
-            fieldName: '', lastName: '', body: ''};
+            firstName: '', lastName: '', body: ''};
         setPost(newPost);
         log.info("Create Post:", newPost);
     }
