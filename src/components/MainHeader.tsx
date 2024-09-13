@@ -16,7 +16,7 @@ import { PostData } from "../interfaces";
 import { editablePostAtom, postsAtom } from "../atoms/atoms";
 import { useAtom } from "jotai";
 import { pluraliseWithCount } from "../strings";
-
+import PostEntry from './PostEntry';
 
 export function MainHeader() {
 
