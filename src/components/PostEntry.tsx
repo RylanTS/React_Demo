@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+    Box,
     Button,
     Checkbox,
     Dialog,
@@ -10,10 +11,8 @@ import {
     FormControlLabel,
     IconButton,
     TextField,
-    Box,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import CreateIcon from '@mui/icons-material/Create';
 import log from '../logging/logger';
 import { PostData } from "../interfaces";
 import { editablePostAtom, postsAtom } from "../atoms/atoms";
@@ -37,11 +36,13 @@ export default function PostEntry() {
             const newPosts: PostData[] = existingPosts
             .filter(existingPost => existingPost.creationDate !== post.creationDate)
             .concat(post)
-            .sort((a: PostData, b: PostData) =>{
-                const firstDate = Date.parse(a.creationDate)
-                const secondDate = Date.parse(b.creationDate)
-                log.debug("firstDate", firstDate, "secondDate", secondDate)
-                return secondDate - firstDate });
+                .sort((firstPost: PostData, secondPost: PostData) => {
+                    const firstDate = Date.parse(firstPost.creationDate);
+                    const secondDate = Date.parse(secondPost.creationDate);
+                    const result = firstDate - secondDate;
+                    log.debug("firstPost:", firstPost, "firstDate", firstDate, "secondPost:", secondPost, "secondDate", secondDate, "result:", result);
+                    return result;
+                });
             log.debug("submitting post:", post, "existing posts:", existingPosts, "newPosts:", newPosts,);
             return newPosts;
         });

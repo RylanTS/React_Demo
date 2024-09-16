@@ -1,22 +1,16 @@
 import React from 'react';
-import {PostData} from "../interfaces";
-import {Button, Card, CardContent, Grid, Typography, Stack} from "@mui/material";
+import { PostData } from "../interfaces";
+import { Button, Card, CardContent, Grid, Stack, Typography } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import CreateIcon from '@mui/icons-material/Create';
-import {useAtom} from "jotai";
-import {postsAtom} from "../atoms/atoms";
-import {editablePostAtom} from "../atoms/atoms";
-import log from '../logging/logger';
+import CopyIcon from '@mui/icons-material/CopyAll';
+import { useAtom, useSetAtom } from "jotai";
+import { editablePostAtom, postsAtom } from "../atoms/atoms";
 
 export default function Post(props: { post: PostData }) {
 
     const [posts, setPosts] = useAtom(postsAtom);
-    const [post, setPost] = useAtom<PostData>(editablePostAtom);
-
-    function editExistingPost() {
-        log.info("Edit existing Post:", props.post );
-        setPost(props.post);
-        }
+    const setPost = useSetAtom(editablePostAtom);
 
     function formatDate(creationDate: string) {
         const date = new Date(creationDate);
@@ -62,6 +56,36 @@ export default function Post(props: { post: PostData }) {
                             }}>
                         Edit
                         </Button>
+                        <Button startIcon={<CopyIcon/>} variant="contained" color="secondary"
+                                onClick={editExistingPost => {
+                                    //  This is the long-form way of doing it, where every field in the post object is set one by one
+                                    //  This is the easiest to understand way of doing it
+                                    setPost({
+                                        creationDate: new Date().toISOString(),
+                                        deletable: props.post.deletable,
+                                        firstName: props.post.firstName,
+                                        lastName: props.post.lastName,
+                                        body: props.post.body
+                                    });
+                                }}>
+                            Copy (1)
+                        </Button>
+                        <Button startIcon={<CopyIcon/>} variant="contained" color="secondary"
+                                onClick={editExistingPost => {
+                                    //  This is the short-form way of doing it, where:
+                                    //  a) the spread operator is used to take everything from the existing post ...props.post,
+                                    //  b) just the creationDate is specified with a value as that's the only field that should be different from the existing post
+                                    setPost({
+                                        ...props.post,
+                                        creationDate: new Date().toISOString()
+                                    });
+                                }}>
+                            Copy (2)
+                        </Button>
+                        {/*Copy (2) is better than Copy (1) as it automatically caters for all fields in the post*/}
+                        {/*without you needing to type them in.*/}
+                        {/*But it is slightly hard to understand unless you've done some googling on the spread*/}
+                        {/*operator: https://www.w3schools.com/react/react_es6_spread.asp*/}
                     </Stack>
                 </CardContent>
             </Card>
